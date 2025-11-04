@@ -39,13 +39,13 @@ O sistema é composto por 3 partes que rodam de forma independente:
     * O Servidor do Jogo se registra nele com um nome (ex: "meu.jogo.go").
     * Os Clientes o consultam para descobrir o endereço (IP e porta) do Servidor do Jogo.
 
-2.  **Servidor do Jogo (`servidor.py`)**
+2.  **Servidor do Jogo (`GoServidor.py`)**
     * É o "cérebro" e "dono" do jogo. Ele é quem possui a instância única do objeto `JogoGo`.
     * Ele se registra no Servidor de Nomes para ser encontrado.
     * Ele espera os clientes se conectarem e recebe suas chamadas de método (RMI) para `fazer_jogada()`, `passar_vez()` ou `get_estado_jogo()`.
     * **Importante:** O servidor é configurado como **Singleton**, garantindo que ambos os clientes se conectem à *mesma instância* do jogo.
 
-3.  **Cliente (`cliente.py`)**
+3.  **Cliente (`GoCliente.py`)**
     * É a interface de terminal para o jogador.
     * Ele **não possui nenhuma lógica de jogo**. É uma interface "burra".
     * Ao iniciar, ele consulta o Servidor de Nomes para encontrar o Servidor do Jogo.
@@ -58,7 +58,7 @@ O sistema é composto por 3 partes que rodam de forma independente:
 
 ## 💻 Tecnologias Utilizadas
 
-* **Python 3.x**
+* **Python 3.13.5**
 * **Pyro5:** Biblioteca para RMI (Invocação de Métodos Remotos) em Python.
 
 ## 🛠️ Pré-requisitos e Instalação
@@ -90,7 +90,7 @@ Deixe este terminal aberto. Ele deve mostrar "NS running on...".
 Este terminal rodará o cérebro do jogo.
 Digite o comando:
 ```bash
-python servidor.py
+python GoServidor.py
 ```
 Deixe este terminal aberto. Ele deve mostrar "Servidor de Go rodando...".
 
@@ -99,7 +99,7 @@ Deixe este terminal aberto. Ele deve mostrar "Servidor de Go rodando...".
 Este será o primeiro cliente (Preto/X).
 Digite o comando:
 ```bash
-python cliente.py
+python GoCliente.py
 ```
 Ele deve conectar e mostrar "Você é o Jogador 1 (Preto)".
 
@@ -108,7 +108,7 @@ Ele deve conectar e mostrar "Você é o Jogador 1 (Preto)".
 Este será o segundo cliente (Branco/O).
 Digite o comando:
 ```bash
-python cliente.py
+python GoCliente.py
 ```
 Ele deve conectar e mostrar "Você é o Jogador 2 (Branco)".
 
@@ -118,11 +118,11 @@ Agora você pode jogar! Alterne entre o **Terminal 3** e o **Terminal 4** para f
 
 ## 🗂️ Estrutura dos Arquivos
 
-* **`logica_go.py`**
+* **`GoGame.py`**
     * O "cérebro" do jogo. Contém a classe `JogoGo` com todas as regras (captura, suicídio, ko), mas não tem conhecimento sobre rede ou distribuição.
-* **`servidor.py`**
+* **`GoServidor.py`**
     * O "dono" do jogo. Importa `JogoGo`, o "embrulha" na classe `ServidorJogo` e o expõe na rede usando Pyro5. Gerencia a conexão dos jogadores e repassa as chamadas de método.
-* **`cliente.py`**
+* **`GoCliente.py`**
     * A interface do usuário (UI) baseada em terminal. Conecta-se ao servidor, pede o estado do jogo, desenha o tabuleiro e envia as jogadas do usuário.
 
 ## 🧑‍💻 Autor
